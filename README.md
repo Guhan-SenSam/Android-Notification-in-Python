@@ -1,19 +1,44 @@
-# Creating A simple Notification
+# Android Notification in Python
+This is a guide into how to create various reminders on android using python.This repo was intended for people who use kivy and buildozer for python app development. But its concepts can be applied for any other use case.
 
-Here we will create simple Notification that has a title a description and displays the icon of the app that fired it.
+There are various modules already available that offer this functionaltiy but due to the need to make
+ these flexible and able to adapt to a large number of use cases they lack some necessary features.
 
-**This is not runnable code. You need to pass the proper variables mentioned in the comments and figure out where to fit these lines into your program**
+Thus here I will go into how to create different types of reminders in android using java code.**But dont worry.We will write most of the code in python and use somthing called plyer to wrap our python code into jaca code.**
 
-## 1. Create the python file
-  We will use pyjnius to write java code within python.
+> Note: Some operations require you to write some java code.  I will ass some simple java code to demonstrate the operations and from there you can expand.
 
-## 2. Create Notification channel
-  From android 8 onwards all notification must be sent through a channel. That is what is done in the function `create_channel`. If you want the code to work below android 8 you need to check the api level and not execute this function if the api level is below that of android 8.
+Getting Started
+===============
+Before you proceed any further there are some things that you have to setup before you create any type of notification.
+> Note: I am assuming you are using buildozer to compile your python code into an apk
 
-## 3. Create a Notification
-  Call the function `create_notification` to create and display your notification. This is basic notification. Hold on to the notification id as it can be used to cancel the notification in the future
+There are two ways to send notification in android. The first way is the old way and requires you to manually code compatibility in for older versions of android. The second way is the newer method and automatically handles backward compatibility for you. We will be using the second method through out this entire repo.
 
-## References
-https://developer.android.com/training/notify-user/build-notification
-https://developer.android.com/training/notify-user/channels
-https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder
+1. Clone and install the latest version of buildozer from here (https://buildozer.readthedocs.io/en/latest/)
+
+2. change the branch for p4a in your buildozer spec file
+ ```
+ # (str) python-for-android branch to use, defaults to master
+ p4a.branch = develop
+ ```
+
+3. We will be using the NotificationCompatBuilder and NotificationCompat through out this repo to make notification. For this you must enable `androidx` support in your app.
+
+    To do this first go to your `buildozer.spec` file and change these values to below values:
+    ```
+    # (list) Gradle dependencies to add
+    android.gradle_dependencies = androidx.work:work-runtime:2.2.0
+
+    # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
+    # contains an 'androidx' package, or any package from Kotlin source.
+    # android.enable_androidx requires android.api >= 28
+    android.enable_androidx = True
+    ```
+    As you might have noticed this will only work if you set your target api for somethin equal to or greater than 28.(This doesnt mean your app will not work on older android devices.It just means the app will be compiled to work best on whatever api you have set)
+
+    ```
+    # (int) Target Android API, should be as high as possible.
+    android.api = 30
+    ```
+4. After this make sure you run `buildozer android clean` and then you can recompile your app.
