@@ -1,6 +1,7 @@
-# Creating A simple Clickable Notification
+# Creating A Notification With An Action Button
 
 Here we will be creating a simple notification that on has an action button which on click will execute a certain function.
+You can add a maximum of three action buttons to a notification
 
 ## 1. Create the python file
   We will use pyjnius to write java code within python.
@@ -57,8 +58,68 @@ Above lines should be added after the below lines.
   ```
 
 ## 8. Build
-  Create a copy of the edited manifest in some other directory
-  After all this run `buildozer android clean` and then recompile your app.
+  Create a copy of the edited manifest in some other directory.
+  Then run `buildozer android clean` and then recompile your app. The app should compile but this would have reverted all your changes to the manifest template file. Go back to the same directory and copy the edited manifest template into it(replacing the default one). Now run a normal compile of your app and everything will work.
+
+
+## Extras:
+
+  ### Dismiss Notification on Action Button click
+
+  By default when you click on an action button of a notification. It will not dismiss the notification. To do this you need to pass the notification id in has an extra for the intent. And in the BroadcastReceiver get that extra and use it to dismiss the notification.
+
+  To your python code add the following lines after creating the intent object.
+  ```
+  intent.putExtra("NOTIFID",id)
+  ```
+  Remember to use the same id value for the notification id and also for the id used here.
+
+  In your java class add the following lines inside the `onReceive` method.
+  ```
+  NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+  notificationManager.cancel(intent.getExtras().getInt("NOTIFID"));
+  ```
+  Remember to import the necessary classes
+  ```
+  import androidx.core.app.NotificationManagerCompat;
+  ```
+
+  ### Launch Kivy App on Action Button Click
+
+  Sometimes you would want to launch your kivy app on pressing an action button. It is suggested not to use this method as action buttons are meant to execute operations quickly and launching a kivy app is very slow.
+
+  Modify the python file by removing these lines
+  ```
+  intent = Intent(context, action1)
+
+    # Creating our PendingIntent
+    pendingintent = PendingIntent.getBroadcast(
+        context, id, intent, PendingIntent.FLAG_CANCEL_CURRENT
+    )
+  ```
+
+  and instead add these lines
+  ```
+  from android import python_act
+  intent = Intent(content,python_act)
+  intent.putExtra("ACTION",1)
+  pending_intent = PendingIntent.getActivity(context,id,intent,0)
+  ```
+  Here `ACTION` will be a key that is passed to our python activity on start. You can access this extra data from the intent inside your main.py file and thus know if the app was just launched normally or if it was launched by clicking on the notification. To do that add the following code inside you main.py file.
+  ```
+  from jnius import autoclass
+  PythonActivity = autoclass('org.kivy.android.PythonActivity')
+  mActivity = PythonActivity.mActivity
+
+  intent = mActivity.getIntent()
+  start = intent.getShortExtra("ACTION",0)
+  if start == 0:
+    # App launched normally from homescreen
+  else:
+    # App launched through notification
+  ```
+  Here 0 is just a default value that will be assigned to start in case an intent doesn't have the extra data.
+
 
 ## References:
 https://developer.android.com/reference/android/content/Intent
