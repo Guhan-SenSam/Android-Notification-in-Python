@@ -16,8 +16,11 @@ NotificationChannel = autoclass("android.app.NotificationChannel")
 NotificationCompat = autoclass("androidx.core.app.NotificationCompat")
 NotificationManagerCompat = autoclass("androidx.core.app.NotificationManagerCompat")
 func_from = getattr(NotificationManagerCompat, "from")
-Intent = autoclass('android.content.Intent')
-PendingIntent = autoclass('android.app.PendingIntent')
+Intent = autoclass("android.content.Intent")
+PendingIntent = autoclass("android.app.PendingIntent")
+
+# Autoclass our own java class
+action1 = autoclass("org.org.appname.Action1")
 
 
 def create_channel():
@@ -72,22 +75,21 @@ def create_notification():
     # If notification is visble to all users on lockscreen
     builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
-    # code to make notification clickable
-    # Create an intent
-    intent = Intent(context, python_act)
-    # Set some more data for the intent
-    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-    # Sets intent action type
-    intent.setAction(Intent.ACTION_MAIN)
-    # Set intent category type
-    intent.addCategory(Intent.CATEGORY_LAUNCHER)
+    # code to add an action button
+    # Creating intent with our own java class
+    intent = Intent(context, action1)
 
-    # Create a pending Intent using your own unique id (int) value
-    pending_intent = PendingIntent.getActivity(context, id, intent, 0)
-    # Add pendingintent to notification
-    notification.setContentIntent(pending_intent)
-    # Auto dismiss the notification on press
-    notification.setAutoCancel(True)
+    # Creating our PendingIntent
+    pendingintent = PendingIntent.getBroadcast(
+        context, id, intent, PendingIntent.FLAG_CANCEL_CURRENT
+    )
+    # Create the action object
+    # Give it an id and a string to represent the text to be shown on the notification
+    action1_button = NotificationCompat.Action.Builder(
+        id, "action1", pendingintent
+    ).build()
+    # Add the action to the notification
+    builder.addAction(action1_button)
 
     # Create a notificationcompat manager object to add the new notification
     compatmanager = NotificationManagerCompat.func_from(context)
