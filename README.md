@@ -1,12 +1,12 @@
 # Android Notification in Python
 This is a guide into how to create various reminders on android using python.This repo was intended for people who use kivy and buildozer for python app development. But its concepts can be applied for any other use case.
 
-There are various modules already available that offer this functionaltiy but due to the need to make
+There are various modules already available that offer this functionality but due to the need to make
  these flexible and able to adapt to a large number of use cases they lack some necessary features.
 
-Thus here I will go into how to create different types of reminders in android using java code.**But dont worry.We will write most of the code in python and use somthing called plyer to wrap our python code into jaca code.**
+Thus here I will go into how to create different types of reminders in android using java code.**But don't worry.We will write most of the code in python and use something called pyjnius to wrap our python code into java code.**
 
-> Note: Some operations require you to write some java code.  I will ass some simple java code to demonstrate the operations and from there you can expand.
+> Note: Some operations require you to write some java code. Just learn a little bit of java basics and you will understand the code easily
 
 Getting Started
 ===============
