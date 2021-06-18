@@ -1,6 +1,6 @@
 # Creating A simple Clickable Notification
 
-Here we will be creating a simple notification that on click will launch our kivy app.
+Here we will be creating a simple notification that on has an action button which on click will execute a certain function.
 
 ## 1. Create the python file
   We will use pyjnius to write java code within python.
@@ -42,13 +42,13 @@ Here we will be creating a simple notification that on click will launch our kiv
   Inside your project directory you will find a `.buildozer` folder. Within this folder navigate to this path `.buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/sdl2/build/templates`.
 
   There you will find an android manifest template file.
-  Add these lines to it. These lines should be added After
+  Add these lines to it.
   ```
   {% for a in args.add_activity  %}
    <activity android:name="{{ a }}"></activity>
    {% endfor %}
   ```
-
+Above lines should be added after the below lines.
   ```
   <receiver android:name="org.org.appname.Action1"
             android:enabled="true"
@@ -56,7 +56,9 @@ Here we will be creating a simple notification that on click will launch our kiv
     </receiver>
   ```
 
-
+## 8. Build
+  Create a copy of the edited manifest in some other directory
+  After all this run `buildozer android clean` and then recompile your app.
 
 ## References:
 https://developer.android.com/reference/android/content/Intent
