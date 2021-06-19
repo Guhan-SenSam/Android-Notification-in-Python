@@ -1,3 +1,5 @@
+![Simple Notification](https://developer.android.com/images/ui/notifications/notification-basic_2x.png)
+
 # Creating A simple Notification
 
 Here we will create simple Notification that has a title a description and displays the icon of the app that fired it.
