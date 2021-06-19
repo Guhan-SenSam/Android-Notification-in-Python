@@ -1,3 +1,6 @@
+https://developer.android.com/images/ui/notifications/reply-button_2x.png
+https://developer.android.com/images/ui/notifications/reply-button_2x.png
+
 # Creating A Notification with a TextField
 
 Here we will be creating a notification that will enable you to type message responses
