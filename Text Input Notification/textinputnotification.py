@@ -1,5 +1,4 @@
 from jnius import autoclass, cast
-from android import python_act
 
 # Gets the current running instance of the app so as to speak
 mActivity = autoclass("org.kivy.android.PythonActivity").mActivity
@@ -16,8 +15,6 @@ NotificationChannel = autoclass("android.app.NotificationChannel")
 NotificationCompat = autoclass("androidx.core.app.NotificationCompat")
 NotificationManagerCompat = autoclass("androidx.core.app.NotificationManagerCompat")
 func_from = getattr(NotificationManagerCompat, "from")
-Intent = autoclass("android.content.Intent")
-PendingIntent = autoclass("android.app.PendingIntent")
 
 # Autoclass our own java class
 action1 = autoclass("org.org.appname.Action1")
@@ -32,12 +29,12 @@ def create_channel():
     att = cast(AudioAttributes, att.build())
 
     # Name of the notification channel
-    name = cast("java.lang.CharSequence", AndroidString("Channel Name"))
+    name = cast("java.lang.CharSequence", AndroidString("Name of channel"))
     # Description for the notification channel
-    description = AndroidString("Channel Description")
+    description = AndroidString("Description of channel")
     # Unique id for a notification channel. Is used to send notification through
     # this channel
-    channel_id = AndroidString("channel_id")
+    channel_id = AndroidString("Channel id string")
 
     # Importance level of the channel
     importance = NotificationManager.IMPORTANCE_HIGH
@@ -75,23 +72,25 @@ def create_notification():
     # If notification is visble to all users on lockscreen
     builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
-    # code to add an action button
-    # Creating intent with our own java class
-    intent = Intent(context, action1)
-
-    # Creating our PendingIntent
-    pendingintent = PendingIntent.getBroadcast(
-        context, id, intent, PendingIntent.FLAG_CANCEL_CURRENT
-    )
+    #Code to build textfield
+    # First create a key value that can be used to access the input string data
+    key = AndroidString("NOTIFICATION_TEXT")
+    textinput = RemoteInput.Builder(key)
+    #Set the text to be displayed as hint text in the TextField and build object
+    textinput.setLabel("Enter Some Text").build()
+    #Create an intent tho launch our broadcast receiver
+    intent = Intent(context,action1)
+    #Create the pending intent. Here id needs to be a number to identify the pendingintent
+    pendingintent = PendingIntent.getBroadcast(context,id,intent,0)
     # Create the action object
-    # Give it an id and a string to represent the text to be shown on the notification
-    action1_button = NotificationCompat.Action.Builder(
-        id, "action1", pendingintent
-    ).build()
-    # Add the action to the notification
-    builder.addAction(action1_button)
+    action_obj = NotificationCompat.Action.Builder(R.drawable.ic_reply_icon,'Reply',pendingintent)
+    #Add text field and build action object
+    action_obj.addRemoteInput(textinput).build()
 
+    # Add the action to the notification
+    builder.addAction(action_obj)
+    
     # Create a notificationcompat manager object to add the new notification
     compatmanager = NotificationManagerCompat.func_from(context)
     # Pass an unique notification_id. This can be used to access the notification
-    compatmanager.notify(notification_id, builder.build())
+    compatmanager.notify("notification_id", builder.build())

@@ -26,12 +26,12 @@ def create_channel():
     att = cast(AudioAttributes, att.build())
 
     # Name of the notification channel
-    name = cast("java.lang.CharSequence", AndroidString(name))
+    name = cast("java.lang.CharSequence", AndroidString("Name of channel"))
     # Description for the notification channel
-    description = AndroidString(description)
+    description = AndroidString("Description of channel")
     # Unique id for a notification channel. Is used to send notification through
     # this channel
-    channel_id = AndroidString(channel_id)
+    channel_id = AndroidString("Channel id string")
 
     # Importance level of the channel
     importance = NotificationManager.IMPORTANCE_HIGH
@@ -72,4 +72,4 @@ def create_notification():
     # Create a notificationcompat manager object to add the new notification
     compatmanager = NotificationManagerCompat.func_from(context)
     # Pass an unique notification_id. This can be used to access the notification
-    compatmanager.notify(notification_id, builder.build())
+    compatmanager.notify("notification_id", builder.build())
