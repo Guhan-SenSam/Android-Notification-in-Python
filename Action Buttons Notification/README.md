@@ -1,3 +1,5 @@
+![Action Notification](https://developer.android.com/images/ui/notifications/notification-basic-action_2x.png)
+
 # Creating A Notification With An Action Button
 
 Here we will be creating a simple notification that on has an action button which on click will execute a certain function.
