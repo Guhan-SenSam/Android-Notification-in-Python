@@ -1,5 +1,4 @@
-https://developer.android.com/images/ui/notifications/reply-button_2x.png
-https://developer.android.com/images/ui/notifications/reply-button_2x.png
+![Notification](https://developer.android.com/images/ui/notifications/reply-button_2x.png)
 
 # Creating A Notification with a TextField
 
