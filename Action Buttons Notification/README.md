@@ -45,19 +45,21 @@ You can add a maximum of three action buttons to a notification
   Inside your project directory you will find a `.buildozer` folder. Within this folder navigate to this path `.buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/sdl2/build/templates`.
 
   There you will find an android manifest template file.
-  Add these lines to it.
+  Add the below lines.
+
+  ```
+  <receiver android:name="org.org.appname.Action1"
+            android:enabled="true"
+        android:exported="false">
+  </receiver>
+  ```
+  After the below lines in the manifest.
   ```
   {% for a in args.add_activity  %}
    <activity android:name="{{ a }}"></activity>
    {% endfor %}
   ```
-Above lines should be added after the below lines.
-  ```
-  <receiver android:name="org.org.appname.Action1"
-            android:enabled="true"
-        android:exported="false">
-    </receiver>
-  ```
+
 
 ## 8. Build
   Create a copy of the edited manifest in some other directory.
@@ -88,7 +90,7 @@ Above lines should be added after the below lines.
 
   ### Launch Kivy App on Action Button Click
 
-  Sometimes you would want to launch your kivy app on pressing an action button. It is suggested not to use this method as action buttons are meant to execute operations quickly and launching a kivy app is very slow.
+  Sometimes you would want to launch your kivy app on pressing an action button. It is suggested not to use this method as action buttons are meant to execute operations quickly and launching a kivy app is very slow. Check the extra folder for more info on how to use this method.
 
   Modify the python file by removing these lines
   ```

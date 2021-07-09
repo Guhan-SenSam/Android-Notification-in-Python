@@ -15,7 +15,7 @@ Here we will be creating a notification that will enable you to type message res
 
 ## 4. Add Intent to run when user clicks on action button in notification
   Create an action that on click will trigger our own java broadcast receiver which will then execute whatever code we need to run within java. The limitation of this method is that we have to write our code in java. View Notification with Action button for some alternatives that you can use.
-  
+
   In line 20 we autoclass our own java class. This java file has to be inside your project folder(It can be anywhere as Java will search all sub directories of your project folder). replace `appname` with the name of your app.
 
   > Note: This is assuming that in your buildozer file you have the following package domain.
@@ -46,18 +46,19 @@ Here we will be creating a notification that will enable you to type message res
   Inside your project directory you will find a `.buildozer` folder. Within this folder navigate to this path `.buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/sdl2/build/templates`.
 
   There you will find an android manifest template file.
-  Add these lines to it.
-  ```
-  {% for a in args.add_activity  %}
-   <activity android:name="{{ a }}"></activity>
-   {% endfor %}
-  ```
-Above lines should be added after the below lines.
+  Add the below lines.
+
   ```
   <receiver android:name="org.org.appname.Action1"
             android:enabled="true"
         android:exported="false">
-    </receiver>
+  </receiver>
+  ```
+  After the below lines in the manifest.
+  ```
+  {% for a in args.add_activity  %}
+   <activity android:name="{{ a }}"></activity>
+   {% endfor %}
   ```
 
 ## 8. Build
