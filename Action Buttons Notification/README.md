@@ -12,7 +12,7 @@ You can add a maximum of three action buttons to a notification
   From android 8 onwards all notification must be sent through a channel. That is what is done in the function `create_channel`. If you want the code to work below android 8 you need to check the api level and not execute this function if the api level is below that of android 8.
 
 ## 3. Create a Notification
-  Call the function `create_notification` to create and display your notification. This is basic notification. Hold on to the notification id as it can be used to cancel the notification in the future
+  Call the function `create_notification` to create and display your notification. Hold on to the notification id as it can be used to cancel the notification in the future
 
 ## 4. Add Intent to run when user clicks on action button in notification
   Create an action that on click will trigger our own java broadcast receiver which will then execute whatever code we need to run within java. The limitation of this method is that we have to write our code in java. I will be attaching some alternatives below allowing you to write code in python, but they aren't elegant solutions.
