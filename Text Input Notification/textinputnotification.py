@@ -14,6 +14,7 @@ NotificationManager = autoclass("android.app.NotificationManager")
 NotificationChannel = autoclass("android.app.NotificationChannel")
 NotificationCompat = autoclass("androidx.core.app.NotificationCompat")
 NotificationManagerCompat = autoclass("androidx.core.app.NotificationManagerCompat")
+NotificationCompatBuilder = autoclass("androidx.core.app.NotificationCompat$Builder")
 func_from = getattr(NotificationManagerCompat, "from")
 
 # Autoclass our own java class
@@ -54,7 +55,7 @@ def create_notification():
     # Set notification sound
     sound = cast(Uri, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
     # Create the notification builder object
-    builder = NotificationCompat.builder(context, channel_id)
+    builder = NotificationCompatBuilder(context, channel_id)
     # Sets the small icon of the notification
     builder.setSmallIcon(context.getApplicationInfo().icon)
     # Sets the title of the notification
@@ -72,24 +73,26 @@ def create_notification():
     # If notification is visble to all users on lockscreen
     builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
-    #Code to build textfield
+    # Code to build textfield
     # First create a key value that can be used to access the input string data
     key = AndroidString("NOTIFICATION_TEXT")
     textinput = RemoteInput.Builder(key)
-    #Set the text to be displayed as hint text in the TextField and build object
+    # Set the text to be displayed as hint text in the TextField and build object
     textinput.setLabel("Enter Some Text").build()
-    #Create an intent tho launch our broadcast receiver
-    intent = Intent(context,action1)
-    #Create the pending intent. Here id needs to be a number to identify the pendingintent
-    pendingintent = PendingIntent.getBroadcast(context,id,intent,0)
+    # Create an intent tho launch our broadcast receiver
+    intent = Intent(context, action1)
+    # Create the pending intent. Here id needs to be a number to identify the pendingintent
+    pendingintent = PendingIntent.getBroadcast(context, id, intent, 0)
     # Create the action object
-    action_obj = NotificationCompat.Action.Builder(R.drawable.ic_reply_icon,'Reply',pendingintent)
-    #Add text field and build action object
+    action_obj = NotificationCompat.Action.Builder(
+        R.drawable.ic_reply_icon, "Reply", pendingintent
+    )
+    # Add text field and build action object
     action_obj.addRemoteInput(textinput).build()
 
     # Add the action to the notification
     builder.addAction(action_obj)
-    
+
     # Create a notificationcompat manager object to add the new notification
     compatmanager = NotificationManagerCompat.func_from(context)
     # Pass an unique notification_id. This can be used to access the notification

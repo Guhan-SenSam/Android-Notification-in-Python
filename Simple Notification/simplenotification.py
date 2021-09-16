@@ -13,6 +13,7 @@ AndroidString = autoclass("java.lang.String")
 NotificationManager = autoclass("android.app.NotificationManager")
 NotificationChannel = autoclass("android.app.NotificationChannel")
 NotificationCompat = autoclass("androidx.core.app.NotificationCompat")
+NotificationCompatBuilder = autoclass("androidx.core.app.NotificationCompat$Builder")
 NotificationManagerCompat = autoclass("androidx.core.app.NotificationManagerCompat")
 func_from = getattr(NotificationManagerCompat, "from")
 
@@ -51,7 +52,7 @@ def create_notification():
     # Set notification sound
     sound = cast(Uri, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
     # Create the notification builder object
-    builder = NotificationCompat.builder(context, channel_id)
+    builder = NotificationCompatBuilder(context, channel_id)
     # Sets the small icon of the notification
     builder.setSmallIcon(context.getApplicationInfo().icon)
     # Sets the title of the notification
